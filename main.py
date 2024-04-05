@@ -24,7 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Aquí estamos definiendo las rutas de nuestra API
+# Aquí estamos definiendo las rutas de nuestra API REST
 @app.get("/items/{item_id}", response_model=user_model.Item)
 def read_item(item_id: int):
     return user_controller.get_item(item_id)
