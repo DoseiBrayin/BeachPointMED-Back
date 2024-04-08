@@ -12,16 +12,20 @@ La estructura de las carpetas del proyecto se organiza de la siguiente manera:
 
 📁 Proyecto
 -       📁 UserItem
-- -         📁 controller
-- - -           📄 user_controller.py
+- -         📁 infrastructure
+- - -           📄 user_insfrastructure.py
 - -         📁 models
 - - -           📄 user_model.py
+- -         📁 router
+- - -           📄 user_router.py
 -       📄 main.py
 
 
-Además, está el archivo principal `main.py`, donde se encontrarán todos los endpoints que pueden ser consumidos por el frontend o el usuario.
+Además, está el archivo principal `app.py`, donde se encontrarán toda la configuracion acerca de la aplicacion.
 
-En `main.py`, se configura CORS (Cross-Origin Resource Sharing) para permitir solicitudes desde ciertos orígenes. Esto se hace añadiendo un middleware CORS a la aplicación FastAPI:
+En `app.py`, se configura CORS (Cross-Origin Resource Sharing) para permitir solicitudes desde ciertos orígenes. Esto se hace añadiendo un middleware CORS a la aplicación FastAPI:
+
+en `main.py` se inicializa la aplicacion
 
 ```python
 # Lista de orígenes permitidos
