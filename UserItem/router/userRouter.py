@@ -2,6 +2,7 @@ from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 from UserItem.infrastructure import user_infrastructure
 from UserItem.models import user_model
+from models import response
 
 router = APIRouter()
 
@@ -10,7 +11,7 @@ router = APIRouter()
 def read_item(item_id: int):
     return user_infrastructure.get_item(item_id)
 
-@router.get("/items/", response_model=list[user_model.Item])
+@router.get("/items/", response_model=response.APIResponse)
 def read_items():
     return user_infrastructure.get_items()
 
