@@ -11,7 +11,7 @@ def get_locations() -> response.APIResponse:
     try:
         # Create a session object
         session = Session()
-        locations = session.query(locationModel.Location).all()
+        locations = session.query(locationModel.Location).filter(locationModel.Location.active == True).all()
         session.close()
         if not locations:
             return response.APIResponse(
