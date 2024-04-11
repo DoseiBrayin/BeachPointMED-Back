@@ -2,11 +2,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from UserItem.router import userRouter
+from locations.router import locationsRouter
 
 app = FastAPI()
 
 # Agrega las rutas de la API
 app.include_router(userRouter.router, prefix="/user")
+app.include_router(locationsRouter.router, prefix="/locations")
 
 # Lista de orígenes permitidos
 origins = [
