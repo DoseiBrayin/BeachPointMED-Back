@@ -7,7 +7,6 @@ load_dotenv()
 # Connection string with credentials (replace with your actual password)
 connection_string = environ.get('DATABASE_URL')
 
-print(environ.get('DATABASE_URL'))
 # Create the engine object
 engine = create_engine(connection_string)
 
