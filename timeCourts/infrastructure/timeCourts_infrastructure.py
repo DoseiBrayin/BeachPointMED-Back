@@ -17,11 +17,11 @@ def get_timeCourts(location:str) -> response.APIResponse:
             courts_model.Courts.description,
             courts_model.Courts.state).join(
                 courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id).filter(
-                    courts_model.Courts.state == 'Available' 
-                    and courts_model.Courts.location == location).all()
+                    (courts_model.Courts.state == 'Available') 
+                    & (courts_model.Courts.fk_location == location)).all()
         if not timeCourts:
             return response.APIResponse(
-                message="There are no TimeCourts available",
+                message=f"There are no TimeCourts available in {location}",
                 data=None,
                 status="success",
                 status_code=200,
