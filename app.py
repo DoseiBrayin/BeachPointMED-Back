@@ -13,7 +13,7 @@ app.include_router(timeCourts_router.router, prefix="/timeCourts")
 
 # Lista de orígenes permitidos
 origins = [
-    "https://beachpointmed.pages.dev/",
+    "https://beachpointmed.pages.dev/*",
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
