@@ -12,15 +12,13 @@ class Courts(Base):
     fk_location = Column(String(36), ForeignKey('Location.id'))  # Aquí usamos una cadena en lugar de la clase Location
     location = relationship('Location')  # Aquí también
     description = Column(String(200))
-    state = Column(String(100))
 
     def to_dict(self):
         return {
             "id": self.id,
             "fk_location": self.fk_location,
             "location": self.location.to_dict(),
-            "description": self.description,
-            "state": self.state
+            "description": self.description
         }
     
     def location(self):

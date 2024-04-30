@@ -12,6 +12,7 @@ class Timecourts(Base):
     date = Column(DateTime)
     hour = Column(Integer)
     price = Column(Float)
+    state = Column(String(100))
 
     # Definir la relación aquí
     def court(self):
@@ -27,5 +28,6 @@ class Timecourts(Base):
             "month": self.month,
             "year": self.year,
             "hour": self.hour,
-            "price": self.price
+            "price": self.price,
+            "state": self.state
         }

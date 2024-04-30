@@ -1,9 +1,10 @@
 from models import response
 from timeCourts.models import timeCourts_model
 from courts.models import courts_model
-from db.connection import  Session
+from db.connection import Session
 
-def get_timeCourts(location:str) -> response.APIResponse:
+
+def get_timeCourts(location: str) -> response.APIResponse:
     try:
         session = Session()
         timeCourts = session.query(
@@ -12,10 +13,13 @@ def get_timeCourts(location:str) -> response.APIResponse:
             timeCourts_model.Timecourts.date,
             timeCourts_model.Timecourts.hour,
             timeCourts_model.Timecourts.price,
+            timeCourts_model.Timecourts.state,
             courts_model.Courts.description,
-            courts_model.Courts.state).join(
-                courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id).filter(
-                (courts_model.Courts.fk_location == location)).all()
+        ).join(
+            courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id
+        ).filter((courts_model.Courts.fk_location == location)
+        ).order_by(timeCourts_model.Timecourts.date, timeCourts_model.Timecourts.hour
+        ).all()
         session.close()
         if not timeCourts:
             return response.APIResponse(
@@ -39,20 +43,22 @@ def get_timeCourts(location:str) -> response.APIResponse:
             status_code=500,
         )
 
-def get_timeCourts_by_date(date:str,location:str) -> response.APIResponse:
+
+def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
     try:
         session = Session()
-        timeCourts = session.query(
-            timeCourts_model.Timecourts.id,
+        timeCourts = session.query(timeCourts_model.Timecourts.id,
             timeCourts_model.Timecourts.fk_court,
             timeCourts_model.Timecourts.date,
             timeCourts_model.Timecourts.hour,
             timeCourts_model.Timecourts.price,
-            courts_model.Courts.description,
-            courts_model.Courts.state).join(
+            timeCourts_model.Timecourts.state,
+            courts_model.Courts.description,).join(
                 courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id).filter(
-                    (timeCourts_model.Timecourts.date == date) 
-                    & (courts_model.Courts.fk_location == location)).all()
+                    (timeCourts_model.Timecourts.date == date)
+                    & (courts_model.Courts.fk_location == location)
+                    & (timeCourts_model.Timecourts.state == 'Available')
+                    ).order_by(timeCourts_model.Timecourts.date).all()
         session.close()
         if not timeCourts:
             return response.APIResponse(
