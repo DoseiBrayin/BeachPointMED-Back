@@ -24,3 +24,14 @@ def create_user(user_data: user_response.UserResponse):
     except Exception as e:
         raise HTTPException(status_code=500,
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
+
+def login(user: user_response.LoginResponse):
+    session = Session()
+    user = session.query(user_model.User).filter(
+        (user_model.User.email == user.email) & (user_model.User.password == user.password)).first()
+    session.close()
+    if user is None:
+        raise HTTPException(status_code=404,
+                            detail=response.APIResponse(status="error", message="User not found", status_code=404).__dict__)
+    user_dict = {key: value for key, value in user.__dict__.items() if key != '_sa_instance_state'}
+    return response.APIResponse(data=user_dict, status="success", message="User has been successfully logged in")

@@ -10,3 +10,7 @@ class UserResponse(BaseModel):
     card_id: str
     is_employee: bool
     fk_rol: str
+
+class LoginResponse(BaseModel):
+    email: str
+    password: str
