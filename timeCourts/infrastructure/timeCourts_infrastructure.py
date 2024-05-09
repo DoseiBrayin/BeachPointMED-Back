@@ -68,9 +68,18 @@ def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
                 status_code=200,
             )
         timeCourts = [dict(row._asdict()) for row in timeCourts]
+        timeCourts_pairs = []
+        for a, b in zip(timeCourts[::2], timeCourts[1::2]):
+            combined = {**a, **{f"{k}-2": v for k, v in b.items()}}
+            combined.pop('date-2', None)
+            combined.pop('hour-2', None)
+            combined.pop('price-2', None)
+            timeCourts_pairs.append(combined)
+        if len(timeCourts) % 2:
+            timeCourts_pairs.append(timeCourts[-1])
         return response.APIResponse(
             message="TimeCourts have been successfully retrieved",
-            data=timeCourts,
+            data=timeCourts_pairs,
             status="success",
             status_code=200,
         )
