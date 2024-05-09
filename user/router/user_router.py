@@ -10,6 +10,6 @@ router = APIRouter()
 def create_user(user_data: UserResponse ):
     return user.create_user(user_data)
 
-@router.post("/login", response_model=response.APIResponse)
+@router.post("/login", response_model=response.APIResponse,dependencies=[Depends(JWTBearer())])
 def login(user_data: LoginResponse):
     return user.login(user_data)
