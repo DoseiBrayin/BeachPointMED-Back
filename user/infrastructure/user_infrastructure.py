@@ -46,3 +46,17 @@ def get_user():
     except Exception as e:
         raise HTTPException(status_code=500,
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
+    
+def get_user_by_cedula(cedula):
+    try:
+        session = Session()
+        user = session.query(user_model.User).filter(user_model.User.cedula == cedula).first()
+        session.close()
+    except Exception as e:
+        raise HTTPException(status_code=500,
+                            detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
+    if user is None:
+        raise HTTPException(status_code=404,
+                            detail=response.APIResponse(status="error", message="User not found", status_code=404).__dict__)
+    user_dict = {key: value for key, value in user.__dict__.items() if key != '_sa_instance_state'}
+    return response.APIResponse(data=user_dict, status="success", message="User has been successfully retrieved",status_code=200)

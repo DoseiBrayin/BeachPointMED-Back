@@ -17,3 +17,7 @@ def login(user_data: LoginResponse):
 @router.get("/", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def get_user():
     return user.get_user()
+
+@router.get("/{cedula}", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
+def get_user_by_cedula(cedula: str):
+    return user.get_user_by_cedula(cedula)
