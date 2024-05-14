@@ -2,6 +2,7 @@ from models import response
 from timeCourts.models import timeCourts_model
 from courts.models import courts_model
 from db.connection import Session
+from fastapi import HTTPException
 
 
 def get_timeCourts(location: str) -> response.APIResponse:
@@ -90,3 +91,90 @@ def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
             status="error",
             status_code=500,
         )
+
+def change_status_reserved(id):
+    try:
+        session = Session()
+        timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
+        if timeCourt:
+            timeCourt.state = 'Reserved'
+            session.commit()
+            session.close()
+            return response.APIResponse(
+                message=f"TimeCourt {id} has been successfully reserved",
+                data=None,
+                status="success",
+                status_code=200,
+            )
+        else:
+            return response.APIResponse(
+                message=f"TimeCourt {id} does not exist",
+                data=None,
+                status="success",
+                status_code=200,
+            )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=response.APIResponse(
+            message="An error occurred while reserving the TimeCourt",
+            data=str(e),
+            status="error",
+            status_code=500,
+        ))
+
+def change_status_available(id):
+    try:
+        session = Session()
+        timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
+        if timeCourt:
+            timeCourt.state = 'Available'
+            session.commit()
+            session.close()
+            return response.APIResponse(
+                message=f"TimeCourt {id} has been successfully made available",
+                data=None,
+                status="success",
+                status_code=200,
+            )
+        else:
+            return response.APIResponse(
+                message=f"TimeCourt {id} does not exist",
+                data=None,
+                status="success",
+                status_code=200,
+            )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=response.APIResponse(
+            message="An error occurred while making the TimeCourt available",
+            data=str(e),
+            status="error",
+            status_code=500,
+        ))
+
+def change_status_unavailable(id):
+    try:
+        session = Session()
+        timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
+        if timeCourt:
+            timeCourt.state = 'Unavailable'
+            session.commit()
+            session.close()
+            return response.APIResponse(
+                message=f"TimeCourt {id} has been successfully made unavailable",
+                data=None,
+                status="success",
+                status_code=200,
+            )
+        else:
+            return response.APIResponse(
+                message=f"TimeCourt {id} does not exist",
+                data=None,
+                status="success",
+                status_code=200,
+            )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=response.APIResponse(
+            message="An error occurred while making the TimeCourt unavailable",
+            data=str(e),
+            status="error",
+            status_code=500,
+        ))
