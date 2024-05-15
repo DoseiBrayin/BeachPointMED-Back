@@ -58,7 +58,6 @@ def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
                 courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id).filter(
                     (timeCourts_model.Timecourts.date == date)
                     & (courts_model.Courts.fk_location == location)
-                    & (timeCourts_model.Timecourts.state == 'Available')
                     ).order_by(timeCourts_model.Timecourts.date).all()
         session.close()
         if not timeCourts:
@@ -99,7 +98,6 @@ def change_status_reserved(id):
         if timeCourt:
             timeCourt.state = 'Reserved'
             session.commit()
-            session.close()
             return response.APIResponse(
                 message=f"TimeCourt {id} has been successfully reserved",
                 data=None,
@@ -120,6 +118,8 @@ def change_status_reserved(id):
             status="error",
             status_code=500,
         ))
+    finally:
+        session.close()
 
 def change_status_available(id):
     try:
@@ -128,7 +128,6 @@ def change_status_available(id):
         if timeCourt:
             timeCourt.state = 'Available'
             session.commit()
-            session.close()
             return response.APIResponse(
                 message=f"TimeCourt {id} has been successfully made available",
                 data=None,
@@ -149,6 +148,8 @@ def change_status_available(id):
             status="error",
             status_code=500,
         ))
+    finally:
+        session.close()
 
 def change_status_unavailable(id):
     try:
@@ -157,7 +158,6 @@ def change_status_unavailable(id):
         if timeCourt:
             timeCourt.state = 'Unavailable'
             session.commit()
-            session.close()
             return response.APIResponse(
                 message=f"TimeCourt {id} has been successfully made unavailable",
                 data=None,
@@ -178,3 +178,5 @@ def change_status_unavailable(id):
             status="error",
             status_code=500,
         ))
+    finally:
+        session.close()

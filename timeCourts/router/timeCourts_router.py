@@ -18,3 +18,11 @@ def read_timeCourts_by_date(date:str,location:str):
 @router.get("/Reserverd/{id}",response_model=response.APIResponse)
 def change_state(id:str):
     return timeCourts_infrastructure.change_status_reserved(id)
+
+@router.get("/Available/{id}",response_model=response.APIResponse)
+def change_state(id:str):
+    return timeCourts_infrastructure.change_status_available(id)
+
+@router.get("/Unavalible/{id}",response_model=response.APIResponse)
+def change_state(id:str):
+    return timeCourts_infrastructure.change_status_unavailable(id)
