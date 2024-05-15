@@ -15,14 +15,14 @@ def read_timeCourts(location:str):
 def read_timeCourts_by_date(date:str,location:str):
     return timeCourts_infrastructure.get_timeCourts_by_date(date,location)
 
-@router.get("/Reserverd/{id}",response_model=response.APIResponse)
+@router.get("/Reserverd/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def change_state(id:str):
     return timeCourts_infrastructure.change_status_reserved(id)
 
-@router.get("/Available/{id}",response_model=response.APIResponse)
+@router.get("/Available/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def change_state(id:str):
     return timeCourts_infrastructure.change_status_available(id)
 
-@router.get("/Unavalible/{id}",response_model=response.APIResponse)
+@router.get("/Unavalible/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def change_state(id:str):
     return timeCourts_infrastructure.change_status_unavailable(id)
