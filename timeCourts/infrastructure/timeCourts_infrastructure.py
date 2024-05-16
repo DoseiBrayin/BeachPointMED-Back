@@ -95,7 +95,7 @@ def change_status_reserved(id):
     try:
         session = Session()
         timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
-        if timeCourt:
+        if timeCourt and timeCourt.state == 'Available':
             timeCourt.state = 'Reserved'
             session.commit()
             return response.APIResponse(
@@ -106,10 +106,10 @@ def change_status_reserved(id):
             )
         else:
             return response.APIResponse(
-                message=f"TimeCourt {id} does not exist",
+                message=f"TimeCourt {id} does not exist or is not available",
                 data=None,
                 status="success",
-                status_code=200,
+                status_code=404,
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
@@ -139,7 +139,7 @@ def change_status_available(id):
                 message=f"TimeCourt {id} does not exist",
                 data=None,
                 status="success",
-                status_code=200,
+                status_code=404,
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
@@ -169,7 +169,7 @@ def change_status_unavailable(id):
                 message=f"TimeCourt {id} does not exist",
                 data=None,
                 status="success",
-                status_code=200,
+                status_code=404,
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
