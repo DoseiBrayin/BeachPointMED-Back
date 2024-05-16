@@ -4,6 +4,7 @@ from models import response
 from timeCourts.infrastructure import timeCourts_infrastructure
 from JWT.JWTBearer import JWTBearer
 
+
 router = APIRouter()
 
 # Aquí estamos definiendo las rutas de nuestra API REST
