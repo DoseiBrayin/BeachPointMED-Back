@@ -13,16 +13,18 @@ class Products(Base):
     quantity = Column(Integer)
     active = Column(String)
 
-    def __init__(self, id, name, price, active):
+    def __init__(self, id, name, price, active, quantity):
         self.id = id
         self.name = name
         self.price = price
         self.active = active
+        self.quantity = quantity
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "price": self.price,
-            "active": self.active
+            "active": self.active,
+            "quantity": self.quantity
         }
