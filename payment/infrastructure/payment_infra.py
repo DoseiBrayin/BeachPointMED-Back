@@ -2,8 +2,8 @@ from payment.models.payment_model import PaymentForm
 from hashlib import sha256
 
 async def payment(form: PaymentForm):
-    p_cust_id_cliente = ''
-    p_key = ''
+    p_cust_id_cliente = '1451626'
+    p_key = 'b703746c916ac81495da8c19bc43c0871421815c'
 
     x_ref_payco = form.x_ref_payco
     x_transaction_id = form.x_transaction_id
