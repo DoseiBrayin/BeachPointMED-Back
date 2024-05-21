@@ -10,7 +10,6 @@ class Products(Base):
     id = Column(String, primary_key=True)
     name = Column(String)
     price = Column(Float)
-    quantity = Column(Integer)
     active = Column(String)
 
     def __init__(self, id, name, price, active, quantity):
