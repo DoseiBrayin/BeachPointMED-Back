@@ -21,12 +21,17 @@ async def payment(form: PaymentForm):
     if x_signature == signature:
         x_cod_response = form.x_cod_response
         if x_cod_response == '1':
-            return {"message": "transacción aceptada"}
+            print("transacción aprobada")
+            return {"message": "transacción aprobada"}
         elif x_cod_response == '2':
-            return {"message": "transacción rechazada"}
+            print("transacción rechazada")
+            return {"error": "transacción rechazada"}
         elif x_cod_response == '3':
-            return {"message": "transacción pendiente"}
+            print("transacción pendiente")
+            return {"error": "transacción pendiente"}
         else:
-            return {"message": "transacción fallida"}
+            print("transacción fallida")
+        return {"message": "Firma valida"}
     else:
-        return {"message": "Firma no valida"}
+        print("Firma no valida")
+        return {"error": "Firma no valida"}
