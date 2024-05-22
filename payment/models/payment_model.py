@@ -1,15 +1,59 @@
 from pydantic import BaseModel
 
 class PaymentForm(BaseModel):
+    x_cust_id_cliente: str
     x_ref_payco: str
-    x_transaction_id: str
-    x_amount: str
-    x_currency_code: str
-    x_signature: str
-    numOrder: str
-    valueOrder: str
-    x_response: str
-    x_response_reason_text: str
+    x_id_factura: str
     x_id_invoice: str
+    x_description: str
+    x_amount: str
+    x_amount_country: str
+    x_amount_ok: str
+    x_tax: str
+    x_amount_base: str
+    x_currency_code: str
+    x_bank_name: str
+    x_cardnumber: str
+    x_quotas: str
+    x_respuesta: str
+    x_response: str
     x_approval_code: str
+    x_transaction_id: str
+    x_fecha_transaccion: str
+    x_transaction_date: str
+    x_cod_respuesta: str
     x_cod_response: str
+    x_response_reason_text: str
+    x_errorcode: str
+    x_cod_transaction_state: str
+    x_transaction_state: str
+    x_franchise: str
+    x_business: str
+    x_customer_doctype: str
+    x_customer_document: str
+    x_customer_name: str
+    x_customer_lastname: str
+    x_customer_email: str
+    x_customer_phone: str
+    x_customer_movil: str
+    x_customer_ind_pais: str
+    x_customer_country: str
+    x_customer_city: str
+    x_customer_address: str
+    x_customer_ip: str
+    x_test_request: str
+    x_extra1: str
+    x_extra2: str
+    x_extra3: str
+    x_extra4: str
+    x_extra5: str
+    x_extra6: str
+    x_extra7: str
+    x_extra8: str
+    x_extra9: str
+    x_extra10: str
+    x_tax_ico: str
+    x_payment_date: str
+    x_signature: str
+    x_transaction_cycle: str
+    is_processable: str
