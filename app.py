@@ -7,7 +7,8 @@ from timeCourts.router import timeCourts_router
 from user.router import user_router
 from products.router import products_router
 from payment.router import paymente_router
-from calendarEvents.router import calendarEvents_router
+from calendarCourt1.router import calendarEvents_router
+from calendarCourt2.router import calendarEvents_router as calendarEvents_router2
 app = FastAPI()
 
 # Agrega las rutas de la API
@@ -18,6 +19,7 @@ app.include_router(user_router.router, prefix="/user")
 app.include_router(products_router.router, prefix="/products")
 app.include_router(paymente_router.router, prefix="/payment")
 app.include_router(calendarEvents_router.router, prefix="/calendarEvents")
+app.include_router(calendarEvents_router2.router, prefix="/calendarEvents")
 
 # Lista de orígenes permitidos
 origins = [
