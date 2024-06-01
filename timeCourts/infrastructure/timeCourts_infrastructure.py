@@ -94,23 +94,22 @@ def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
 def change_status_reserved(id):
     try:
         session = Session()
-        timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
-        if timeCourt and timeCourt.state == 'Available':
-            timeCourt.state = 'Reserved'
-            session.commit()
-            return response.APIResponse(
-                message=f"TimeCourt {id} has been successfully reserved",
-                data=None,
-                status="success",
-                status_code=200,
-            )
-        else:
-            return response.APIResponse(
-                message=f"TimeCourt {id} does not exist or is not available",
-                data=None,
-                status="success",
-                status_code=404,
-            )
+        states_courts = []
+        for timeCourt_id in id:
+            timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == timeCourt_id).first()
+            if timeCourt and timeCourt.state == 'Available':
+                timeCourt.state = 'Reserved'
+                session.commit()
+                states_courts.append(f'TimeCourt {timeCourt_id} has been successfully reserved')
+            else:
+                states_courts.append(f'TimeCourt {timeCourt_id} is not available to be reserved')
+        print(states_courts)
+        return response.APIResponse(
+            message="TimeCourts have been successfully reserved",
+            data=states_courts,
+            status="success",
+            status_code=200,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
             message="An error occurred while reserving the TimeCourt",
@@ -124,23 +123,22 @@ def change_status_reserved(id):
 def change_status_available(id):
     try:
         session = Session()
-        timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
-        if timeCourt:
-            timeCourt.state = 'Available'
-            session.commit()
-            return response.APIResponse(
-                message=f"TimeCourt {id} has been successfully made available",
-                data=None,
-                status="success",
-                status_code=200,
-            )
-        else:
-            return response.APIResponse(
-                message=f"TimeCourt {id} does not exist",
-                data=None,
-                status="success",
-                status_code=404,
-            )
+        states_courts = []
+        for timeCourt_id in id:
+            timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == timeCourt_id).first()
+            if timeCourt and timeCourt.state != 'Available':
+                timeCourt.state = 'Available'
+                session.commit()
+                states_courts.append(f'TimeCourt {timeCourt_id} has been successfully made available')
+            else:
+                states_courts.append(f'TimeCourt {timeCourt_id} is available already')
+        
+        return response.APIResponse(
+            message="TimeCourts have been successfully made available",
+            data=states_courts,
+            status="success",
+            status_code=200,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
             message="An error occurred while making the TimeCourt available",
@@ -154,23 +152,21 @@ def change_status_available(id):
 def change_status_unavailable(id):
     try:
         session = Session()
-        timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == id).first()
-        if timeCourt:
-            timeCourt.state = 'Unavailable'
-            session.commit()
-            return response.APIResponse(
-                message=f"TimeCourt {id} has been successfully made unavailable",
-                data=None,
-                status="success",
-                status_code=200,
-            )
-        else:
-            return response.APIResponse(
-                message=f"TimeCourt {id} does not exist",
-                data=None,
-                status="success",
-                status_code=404,
-            )
+        states_courts = []
+        for timeCourt_id in id:
+            timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == timeCourt_id).first()
+            if timeCourt and timeCourt.state != 'Unavailable':
+                timeCourt.state = 'Unavailable'
+                session.commit()
+                states_courts.append(f'TimeCourt {timeCourt_id} has been successfully made unavailable')
+            else:
+                states_courts.append(f'TimeCourt {timeCourt_id} is unavailable already')
+        return response.APIResponse(
+            message="TimeCourts have been successfully made unavailable",
+            data=states_courts,
+            status="success",
+            status_code=200,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
             message="An error occurred while making the TimeCourt unavailable",
