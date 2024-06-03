@@ -7,7 +7,7 @@ from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
-@router.post("/{PaymentForm}")
+@router.post("/")
 async def payment(request: PaymentForm = Depends()):
     return await payment_infra.payment(request)
 

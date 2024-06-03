@@ -1,15 +1,59 @@
 from pydantic import BaseModel
 
 class PaymentForm(BaseModel):
-    x_ref_payco: str
-    x_transaction_id: str
-    x_amount: str
-    x_currency_code: str
-    x_signature: str
-    numOrder: str
-    valueOrder: str
-    x_response: str
-    x_response_reason_text: str
-    x_id_invoice: str
-    x_approval_code: str
-    x_cod_response: str
+    x_cust_id_cliente: str = None
+    x_ref_payco: str = None
+    x_id_factura: str = None
+    x_id_invoice: str = None
+    x_description: str = None
+    x_amount: str = None
+    x_amount_country: str = None
+    x_amount_ok: str = None
+    x_tax: str = None
+    x_amount_base: str = None
+    x_currency_code: str = None
+    x_bank_name: str = None
+    x_cardnumber: str = None
+    x_quotas: str = None
+    x_respuesta: str = None
+    x_response: str = None
+    x_approval_code: str = None
+    x_transaction_id: str = None
+    x_fecha_transaccion: str = None
+    x_transaction_date: str = None
+    x_cod_respuesta: str = None
+    x_cod_response: str = None
+    x_response_reason_text: str = None
+    x_errorcode: str = None
+    x_cod_transaction_state: str = None
+    x_transaction_state: str = None
+    x_franchise: str = None
+    x_business: str = None
+    x_customer_doctype: str = None
+    x_customer_document: str = None
+    x_customer_name: str = None
+    x_customer_lastname: str = None
+    x_customer_email: str = None
+    x_customer_phone: str = None
+    x_customer_movil: str = None
+    x_customer_ind_pais: str = None
+    x_customer_country: str = None
+    x_customer_city: str = None
+    x_customer_address: str = None
+    x_customer_ip: str = None
+    x_test_request: str = None
+    x_extra1: str = None
+    x_extra2: str = None
+    x_extra3: str = None
+    x_extra4: str = None
+    x_extra5: str = None
+    x_extra6: str = None
+    x_extra7: str = None
+    x_extra8: str = None
+    x_extra9: str = None
+    x_extra10: str = None
+    x_tax_ico: str = None
+    x_payment_date: str = None
+    x_signature: str = None
+    x_transaction_cycle: str = None
+    is_processable: str = None
