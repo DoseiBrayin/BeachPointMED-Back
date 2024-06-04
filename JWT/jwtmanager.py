@@ -9,6 +9,6 @@ def create_token(data:dict ):
 
 def validate_token(token:str):
     try:
-        return decode(token, key=os.getenv('SECRET_KEY'), algorithms='HS256')
+       decode(token, key=os.getenv('SECRET_KEY'), algorithms='HS256')
     except Exception as e:
         return e.__str__()
