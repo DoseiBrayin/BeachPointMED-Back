@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from fastapi import HTTPException
+from datetime import datetime
 import os
 
 
@@ -26,6 +27,16 @@ class Event(BaseModel):
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def create_events_calendar(event: Event):
+    try:
+        datetime.fromisoformat(event.start)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid start date format. It should be in ISO 8601 format")
+    
+    try:
+        datetime.fromisoformat(event.end)   
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid end date format. It should be in ISO 8601 format")
+    
     event_body = {
         'summary': event.summary,
         'start': {
@@ -37,6 +48,7 @@ def create_events_calendar(event: Event):
             'timeZone': event.time_zone
         }
     }
+
 
     # Local variables
     SERVICE_ACCOUNT_INFO = {}
