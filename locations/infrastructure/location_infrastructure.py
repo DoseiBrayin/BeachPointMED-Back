@@ -1,5 +1,5 @@
 from models import response
-from locations.models import locationModel
+from db.models.BPDataBase import Location
 from db.connection import  Session
 def get_locations() -> response.APIResponse:
     """
@@ -11,7 +11,7 @@ def get_locations() -> response.APIResponse:
     try:
         # Create a session object
         session = Session()
-        locations = session.query(locationModel.Location).filter(locationModel.Location.active == True).all()
+        locations = session.query(Location).filter(Location.active == True).all()
         session.close()
         if not locations:
             return response.APIResponse(
