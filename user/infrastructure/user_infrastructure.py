@@ -3,6 +3,7 @@ from models import response
 from user.model import user_model, user_response
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
+from JWT.jwtmanager import create_token
 
 
 def create_user(user_data: user_response.UserResponse):
@@ -34,7 +35,7 @@ def login(user: user_response.LoginResponse):
         raise HTTPException(status_code=404,
                             detail=response.APIResponse(status="error", message="User not found", status_code=404).__dict__)
     user_dict = {key: value for key, value in user.__dict__.items() if key != '_sa_instance_state'}
-    return response.APIResponse(data=user_dict, status="success", message="User has been successfully logged in")
+    return response.APIResponse(data=create_token(user_dict), status="success", message="User has been successfully logged in")
 
 def get_user():
     try:
