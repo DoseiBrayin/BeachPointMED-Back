@@ -1,7 +1,6 @@
 # main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from UserItem.router import userRouter
 from locations.router import locationsRouter
 from timeCourts.router import timeCourts_router
 from user.router import user_router
@@ -10,7 +9,6 @@ from payment.router import paymente_router
 app = FastAPI()
 
 # Agrega las rutas de la API
-app.include_router(userRouter.router, prefix="/user")
 app.include_router(locationsRouter.router, prefix="/locations")
 app.include_router(timeCourts_router.router, prefix="/timeCourts")
 app.include_router(user_router.router, prefix="/user")

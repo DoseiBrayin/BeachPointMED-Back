@@ -1,6 +1,4 @@
 from models import response
-from timeCourts.models import timeCourts_model
-from courts.models import courts_model
 from db.connection import Session
 from fastapi import HTTPException
 from db.models.BPDataBase import Timecourts, Courts
