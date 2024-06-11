@@ -3,23 +3,23 @@ from timeCourts.models import timeCourts_model
 from courts.models import courts_model
 from db.connection import Session
 from fastapi import HTTPException
-
+from db.models.BPDataBase import Timecourts, Courts
 
 def get_timeCourts(location: str) -> response.APIResponse:
     try:
         session = Session()
         timeCourts = session.query(
-            timeCourts_model.Timecourts.id,
-            timeCourts_model.Timecourts.fk_court,
-            timeCourts_model.Timecourts.date,
-            timeCourts_model.Timecourts.hour,
-            timeCourts_model.Timecourts.price,
-            timeCourts_model.Timecourts.state,
-            courts_model.Courts.description,
+            Timecourts.id,
+            Timecourts.fk_court,
+            Timecourts.date,
+            Timecourts.hour,
+            Timecourts.price,
+            Timecourts.state,
+           Courts.description,
         ).join(
-            courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id
-        ).filter((courts_model.Courts.fk_location == location)
-        ).order_by(timeCourts_model.Timecourts.date, timeCourts_model.Timecourts.hour
+           Courts, Timecourts.fk_court ==Courts.id
+        ).filter((Courts.fk_location == location)
+        ).order_by(Timecourts.date, Timecourts.hour
         ).all()
         session.close()
         if not timeCourts:
@@ -48,17 +48,17 @@ def get_timeCourts(location: str) -> response.APIResponse:
 def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
     try:
         session = Session()
-        timeCourts = session.query(timeCourts_model.Timecourts.id,
-            timeCourts_model.Timecourts.fk_court,
-            timeCourts_model.Timecourts.date,
-            timeCourts_model.Timecourts.hour,
-            timeCourts_model.Timecourts.price,
-            timeCourts_model.Timecourts.state,
-            courts_model.Courts.description,).join(
-                courts_model.Courts, timeCourts_model.Timecourts.fk_court == courts_model.Courts.id).filter(
-                    (timeCourts_model.Timecourts.date == date)
-                    & (courts_model.Courts.fk_location == location)
-                    ).order_by(timeCourts_model.Timecourts.date).all()
+        timeCourts = session.query(Timecourts.id,
+            Timecourts.fk_court,
+            Timecourts.date,
+            Timecourts.hour,
+            Timecourts.price,
+            Timecourts.state,
+           Courts.description,).join(
+               Courts, Timecourts.fk_court ==Courts.id).filter(
+                    (Timecourts.date == date)
+                    & (Courts.fk_location == location)
+                    ).order_by(Timecourts.date).all()
         session.close()
         if not timeCourts:
             return response.APIResponse(
@@ -96,7 +96,7 @@ def change_status_reserved(id):
         session = Session()
         states_courts = []
         for timeCourt_id in id:
-            timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == timeCourt_id).first()
+            timeCourt = session.query(Timecourts).filter(Timecourts.id == timeCourt_id).first()
             if timeCourt and timeCourt.state == 'Available':
                 timeCourt.state = 'Reserved'
                 session.commit()
@@ -125,7 +125,7 @@ def change_status_available(id):
         session = Session()
         states_courts = []
         for timeCourt_id in id:
-            timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == timeCourt_id).first()
+            timeCourt = session.query(Timecourts).filter(Timecourts.id == timeCourt_id).first()
             if timeCourt and timeCourt.state != 'Available':
                 timeCourt.state = 'Available'
                 session.commit()
@@ -154,7 +154,7 @@ def change_status_unavailable(id):
         session = Session()
         states_courts = []
         for timeCourt_id in id:
-            timeCourt = session.query(timeCourts_model.Timecourts).filter(timeCourts_model.Timecourts.id == timeCourt_id).first()
+            timeCourt = session.query(Timecourts).filter(Timecourts.id == timeCourt_id).first()
             if timeCourt and timeCourt.state != 'Unavailable':
                 timeCourt.state = 'Unavailable'
                 session.commit()
