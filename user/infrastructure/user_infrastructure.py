@@ -5,6 +5,7 @@ from db.models.BPDataBase import Users
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from JWT.jwtmanager import create_token
+from helpers.VerificationCode import generate_verification_token, verify_verification_token
 
 
 def create_user(user_data: user_response.UserResponse):
@@ -48,3 +49,9 @@ def get_user():
     except Exception as e:
         raise HTTPException(status_code=500,
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
+    
+def send_verification_code(email):
+    return response.APIResponse(data=generate_verification_token(email), status="success", message="Verification code has been sent successfully")
+
+def verify_verification_code(token):
+    return response.APIResponse(data=verify_verification_token(token), status="success", message="Verification code has been verified successfully")
