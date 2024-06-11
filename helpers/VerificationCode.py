@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import os
 import jwt
 from dotenv import load_dotenv
+from fastapi import HTTPException
 
 load_dotenv()
 
@@ -16,9 +17,12 @@ def generate_verification_token(email):
 def verify_verification_token(token):
     try:
         payload = jwt.decode(token, os.getenv('SECRET_KEY_CODE'), algorithms='HS256')
-        if payload['exp'] < datetime.utcnow():
-            return 'Token expirado. Por favor solicite uno nuevo.'
+        current_time = datetime.utcnow()
+        current_timestamp = int(current_time.timestamp())
+        if payload['exp'] > current_timestamp:
+            return False
+        return True
     except jwt.ExpiredSignatureError:
-        return 'Token expirado. Por favor solicite uno nuevo.'
+        raise HTTPException(status_code=400, detail="Token expirado. Por favor solicite uno nuevo.")
     except jwt.InvalidTokenError:
-        return 'Token inválido. Por favor solicite uno nuevo.'
+        return HTTPException(status_code=400, detail="Token inválido. Por favor solicite uno nuevo.")
