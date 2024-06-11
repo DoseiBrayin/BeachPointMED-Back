@@ -92,7 +92,6 @@ class Products(Base):
     id = Column(String(36), primary_key=True)
     name = Column(String(100))
     price = Column(Float)
-    quantity = Column(Integer)
     active = Column(Boolean)
 
     def to_dict(self):
@@ -100,7 +99,6 @@ class Products(Base):
             "id": self.id,
             "name": self.name,
             "price": self.price,
-            "quantity": self.quantity,
             "active": self.active
         }
 

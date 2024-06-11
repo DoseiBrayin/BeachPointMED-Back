@@ -1,5 +1,5 @@
 from models import response
-from products.models import products_model
+from db.models.BPDataBase import Products
 from db.connection import  Session
 from fastapi import HTTPException
 
@@ -14,7 +14,7 @@ def get_Allproducts():
     """
     try:
         session = Session()
-        products = session.query(products_model.Products).filter(products_model.Products.active == True).all()
+        products = session.query(Products).filter(Products.active == True).all()
         session.close()
     except Exception as e:
         raise HTTPException(status_code=500, detail=response.APIResponse(
