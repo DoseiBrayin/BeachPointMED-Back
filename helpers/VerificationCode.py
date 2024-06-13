@@ -13,7 +13,7 @@ def generate_verification_token(email):
     code = ''.join(random.choices(list, k=6))
     if not secret_key:
         raise ValueError("Missing secret key")
-    expiration = datetime.utcnow() + timedelta(minutes=5)  
+    expiration = datetime.utcnow() + timedelta(minutes=1)  
     token = jwt.encode({'email': email, 'exp': expiration, 'code':code}, secret_key, algorithm='HS256')
     return token, code
 
@@ -28,4 +28,4 @@ def verify_verification_token(token):
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=400, detail="Token expirado. Por favor solicite uno nuevo.")
     except jwt.InvalidTokenError:
-        return HTTPException(status_code=400, detail="Token inválido. Por favor solicite uno nuevo.")
+        raise HTTPException(status_code=403, detail="Token inválido. Por favor solicite uno nuevo.")
