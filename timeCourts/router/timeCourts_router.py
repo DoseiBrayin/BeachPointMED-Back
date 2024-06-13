@@ -7,25 +7,25 @@ from JWT.JWTBearer import JWTBearer
 router = APIRouter()
 
 # Aquí estamos definiendo las rutas de nuestra API REST
-@router.get("/timeCourts/{location}", response_model=response.APIResponse)
+@router.get("/timeCourts/{location}", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def read_timeCourts(location:str):
     return timeCourts_infrastructure.get_timeCourts(location)
 
-@router.get("/timeCourts/{date}/{location}", response_model=response.APIResponse)
+@router.get("/timeCourts/{date}/{location}", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def read_timeCourts_by_date(date:str,location:str):
     return timeCourts_infrastructure.get_timeCourts_by_date(date,location)
 
-@router.get("/Reserverd/{id}",response_model=response.APIResponse)
+@router.get("/Reserverd/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def change_state(id:str):
     id_list = [i for i in id.split(",")]
     return timeCourts_infrastructure.change_status_reserved(id_list)
 
-@router.get("/Available/{id}",response_model=response.APIResponse)
+@router.get("/Available/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def change_state(id:str):
     id_list = [i for i in id.split(",")]
     return timeCourts_infrastructure.change_status_available(id_list)
 
-@router.get("/Unavalible/{id}",response_model=response.APIResponse)
+@router.get("/Unavalible/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def change_state(id:str):
     id_list = [i for i in id.split(",")]
     return timeCourts_infrastructure.change_status_unavailable(id_list)

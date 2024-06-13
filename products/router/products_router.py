@@ -6,6 +6,6 @@ from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 #
-@router.get("/", response_model=response.APIResponse)
+@router.get("/", response_model=response.APIResponse,dependencies=[Depends(JWTBearer())])
 def read_products():
     return products_infrasctructure.get_Allproducts()

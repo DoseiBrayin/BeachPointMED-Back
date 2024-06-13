@@ -6,14 +6,14 @@ from user.model.user_response import UserResponse,LoginResponse
 
 router = APIRouter()
 
-@router.post("/create", response_model=response.APIResponse)
+@router.post("/create", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def create_user(user_data: UserResponse ):
     return user.create_user(user_data)
 
-@router.post("/login", response_model=response.APIResponse)
+@router.post("/login", response_model=response.APIResponse,dependencies=[Depends(JWTBearer())])
 def login(user_data: LoginResponse):
     return user.login(user_data)
 
-@router.get("/", response_model=response.APIResponse)
+@router.get("/", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
 def get_user():
     return user.get_user()
