@@ -1,5 +1,6 @@
 from payment.models.payment_model import PaymentForm
 from hashlib import sha256
+from helpers import createEventsCalendar
 
 async def payment(form: PaymentForm):
     p_cust_id_cliente = '1451626'
@@ -18,10 +19,25 @@ async def payment(form: PaymentForm):
     x_id_invoice = form.x_id_invoice
     x_autorizacion = form.x_approval_code
 
+    # x_extra1 is the courts that the user selected
+    courts = form.x_extra1
+
     if x_signature == signature:
         x_cod_response = form.x_cod_response
         if x_cod_response == '1':
             print("transacción aprobada")
+
+            for court in courts:
+                event = {
+                    "summary": f"{court.description}",
+                    "start": "2024-06-13T10:00:00-05:00",
+                    "end": "2024-06-13T11:00:00-05:00",
+                    "time_zone": "America/Chicago",
+                    "court": f"{court.description}"
+                }
+
+                createEventsCalendar.create_events_calendar(event=event)
+
             return {"message": "transacción aprobada"}
         elif x_cod_response == '2':
             print("transacción rechazada")
