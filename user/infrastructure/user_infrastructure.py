@@ -59,7 +59,7 @@ def get_user():
 
 
         if not users_list:
-            return HTTPException(status_code=404, detail=response.APIResponse(
+            raise HTTPException(status_code=404, detail=response.APIResponse(
                 data=None, 
                 status="error", 
                 message="There are no users registered", 
