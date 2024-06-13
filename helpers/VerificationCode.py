@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import os
 import jwt
+import random
 from dotenv import load_dotenv
 from fastapi import HTTPException
 
@@ -8,11 +9,13 @@ load_dotenv()
 
 def generate_verification_token(email):
     secret_key = os.getenv('SECRET_KEY_CODE')
+    list = [str(i) for i in range(10)]
+    code = ''.join(random.choices(list, k=6))
     if not secret_key:
         raise ValueError("Missing secret key")
-    expiration = datetime.utcnow() + timedelta(minutes=5)  # El token expira en 10 minutos
-    token = jwt.encode({'email': email, 'exp': expiration}, secret_key, algorithm='HS256')
-    return token
+    expiration = datetime.utcnow() + timedelta(minutes=5)  
+    token = jwt.encode({'email': email, 'exp': expiration, 'code':code}, secret_key, algorithm='HS256')
+    return token, code
 
 def verify_verification_token(token):
     try:
