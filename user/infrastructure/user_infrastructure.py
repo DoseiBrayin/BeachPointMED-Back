@@ -1,3 +1,5 @@
+import os
+import jwt
 from db.connection import Session
 from models import response
 from user.model import user_response
@@ -5,6 +7,7 @@ from db.models.BPDataBase import Users, Rol
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from JWT.jwtmanager import create_token
+from helpers.VerificationCode import generate_verification_token, verify_verification_token
 
 
 def create_user(user_data: user_response.UserResponse):
@@ -76,3 +79,17 @@ def get_user():
     except Exception as e:
         raise HTTPException(status_code=500,
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
+    
+def send_verification_code(email):
+    return response.APIResponse(data=generate_verification_token(email), status="success", message="Verification code has been sent successfully")
+
+def verify_verification_code(token, code):
+    if not verify_verification_token(token):
+        raise HTTPException(status_code=400,
+                            detail=response.APIResponse(status="error", message="Token expired. Please request a new one", status_code=400).__dict__)
+    payload = jwt.decode(token, os.getenv('SECRET_KEY_CODE'), algorithms='HS256')
+    if payload['code'] == code:
+        return response.APIResponse(data=None, status="success", message="Verification code is correct")
+    else:
+        raise HTTPException(status_code=400,
+                            detail=response.APIResponse(status="error", message="Invalid verification code", status_code=400).__dict__)

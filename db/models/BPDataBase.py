@@ -72,6 +72,7 @@ class Users(Base):
     password = Column(String(100))
     card_id = Column(String(20))
     is_employee = Column(Boolean)
+    code = Column(String(6))
     fk_rol = Column(String(36), ForeignKey('Rol.id'))
 
     def to_dict(self):

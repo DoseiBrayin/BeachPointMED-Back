@@ -17,3 +17,11 @@ def login(user_data: LoginResponse):
 @router.get("/", response_model=response.APIResponse,dependencies=[Depends(JWTBearer())])
 def get_user():
     return user.get_user()
+
+@router.get("/send_verification_code", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
+def send_verification_code(email: str):
+    return user.send_verification_code(email)
+
+@router.get("/verify_verification_code", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
+def verify_verification_code(token: str , code: str):
+    return user.verify_verification_code(token,code)
