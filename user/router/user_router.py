@@ -14,6 +14,6 @@ def create_user(user_data: UserResponse ):
 def login(user_data: LoginResponse):
     return user.login(user_data)
 
-@router.get("/", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
+@router.get("/", response_model=response.APIResponse,dependencies=[Depends(JWTBearer())])
 def get_user():
     return user.get_user()

@@ -1,7 +1,7 @@
 from db.connection import Session
 from models import response
 from user.model import user_response
-from db.models.BPDataBase import Users
+from db.models.BPDataBase import Users, Rol
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from JWT.jwtmanager import create_token
@@ -41,10 +41,38 @@ def login(user: user_response.LoginResponse):
 def get_user():
     try:
         session = Session()
-        users = session.query(Users).all()
+        users = session.query(
+            Users.cedula,
+            Users.phone_number,
+            Users.email,
+            Users.name,
+            Users.password,
+            Users.is_employee,
+            Rol.type_rol
+        ).join(
+            Rol, Users.fk_rol == Rol.id
+        ).order_by(
+            Users.id
+        ).all()
         session.close()
-        users_list = [{key: value for key, value in user.__dict__.items() if key != '_sa_instance_state'} for user in users]
-        return response.APIResponse(data=users_list, status="success", message="Users have been successfully retrieved")
+        users_list = [dict(row._asdict()) for row in users]
+
+
+        if not users_list:
+            raise HTTPException(status_code=404, detail=response.APIResponse(
+                data=None, 
+                status="error", 
+                message="There are no users registered", 
+                status_code=404
+            ).__dict__)
+        
+        return response.APIResponse(
+            data=users_list, 
+            status="success", 
+            message="Users have been successfully retrieved", 
+            status_code=200
+        )
+    
     except Exception as e:
         raise HTTPException(status_code=500,
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
