@@ -38,24 +38,16 @@ async def payment(form: PaymentForm):
                 'court': court['description']
             }
             createEventsCalendar.create_events_calendar(event)
-            # event = {
-            #     'summary': f'Reserva de cancha de {name} {lastname}',
-            #     'start': '2024-06-06T10:00:00-05:00',
-            #     'end': '2024-06-06T11:00:00-05:00',
-            #     'time_zone': 'America/Chicago',
-            #     'court': court['description']
-            # }
-            # createEventsCalendar.create_events_calendar(event)
         return {"message": "transacción aprobada"}
-    #     elif x_cod_response == '2':
-    #         print("transacción rechazada")
-    #         return {"error": "transacción rechazada"}
-    #     elif x_cod_response == '3':
-    #         print("transacción pendiente")
-    #         return {"error": "transacción pendiente"}
-    #     else:
-    #         print("transacción fallida")
-    #     return {"message": "Firma valida"}
+    elif x_cod_response == '2':
+        print("transacción rechazada")
+        return {"error": "transacción rechazada"}
+    elif x_cod_response == '3':
+        print("transacción pendiente")
+        return {"error": "transacción pendiente"}
+    else:
+        print("transacción fallida")
+        return {"error": "transacción fallida"}
     # else:
     #     print("Firma no valida")
     #     return {"error": "Firma no valida"}
