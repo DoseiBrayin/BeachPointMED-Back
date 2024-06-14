@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Any, Optional
 
 class PaymentForm(BaseModel):
     x_cust_id_cliente: str = None
@@ -42,18 +43,18 @@ class PaymentForm(BaseModel):
     x_customer_address: str = None
     x_customer_ip: str = None
     x_test_request: str = None
-    x_extra1: str = None
-    x_extra2: str = None
-    x_extra3: str = None
-    x_extra4: str = None
-    x_extra5: str = None
-    x_extra6: str = None
-    x_extra7: str = None
-    x_extra8: str = None
-    x_extra9: str = None
-    x_extra10: str = None
-    x_tax_ico: str = None
-    x_payment_date: str = None
-    x_signature: str = None
-    x_transaction_cycle: str = None
-    is_processable: str = None
+    x_extra1: Any = None
+    x_extra2: Optional[str] = None
+    x_extra3: Optional[str] = None
+    x_extra4: Optional[str] = None
+    x_extra5: Optional[str] = None
+    x_extra6: Optional[str] = None
+    x_extra7: Optional[str] = None
+    x_extra8: Optional[str] = None
+    x_extra9: Optional[str] = None
+    x_extra10: Optional[str] = None
+    x_tax_ico: Optional[str] = None
+    x_payment_date: Optional[str] = None
+    x_signature: Optional[str] = None
+    x_transaction_cycle: Optional[str] = None
+    is_processable: Optional[str] = None
