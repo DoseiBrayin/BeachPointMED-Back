@@ -1,6 +1,7 @@
 from payment.models.payment_model import PaymentForm
 from hashlib import sha256
 from helpers import createEventsCalendar
+import json
 
 async def payment(form: PaymentForm):
     p_cust_id_cliente = '1451626'
@@ -20,34 +21,41 @@ async def payment(form: PaymentForm):
     x_autorizacion = form.x_approval_code
 
     # x_extra1 is the courts that the user selected
-    courts = form.x_extra1
+    courts = json.loads(form.x_extra1)
+    name = form.x_customer_name
+    lastname = form.x_customer_lastname
 
-    if x_signature == signature:
-        x_cod_response = form.x_cod_response
-        if x_cod_response == '1':
-            print("transacción aprobada")
-
-            for court in courts:
-                event = {
-                    "summary": f"{court.description}",
-                    "start": "2024-06-13T10:00:00-05:00",
-                    "end": "2024-06-13T11:00:00-05:00",
-                    "time_zone": "America/Chicago",
-                    "court": f"{court.description}"
-                }
-
-                createEventsCalendar.create_events_calendar(event=event)
-
-            return {"message": "transacción aprobada"}
-        elif x_cod_response == '2':
-            print("transacción rechazada")
-            return {"error": "transacción rechazada"}
-        elif x_cod_response == '3':
-            print("transacción pendiente")
-            return {"error": "transacción pendiente"}
-        else:
-            print("transacción fallida")
-        return {"message": "Firma valida"}
-    else:
-        print("Firma no valida")
-        return {"error": "Firma no valida"}
+    # if x_signature == signature:
+    x_cod_response = form.x_cod_response
+    if x_cod_response == '1':
+        print("transacción aprobada")
+        for court in courts['courts']:
+            event = {
+                'summary': f'Reserva de cancha de {name} {lastname}',
+                'start': f"{court['date']}T{court['hour']}:00:00-05:00",
+                'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
+                'time_zone': 'America/Chicago',
+                'court': court['description']
+            }
+            createEventsCalendar.create_events_calendar(event)
+            # event = {
+            #     'summary': f'Reserva de cancha de {name} {lastname}',
+            #     'start': '2024-06-06T10:00:00-05:00',
+            #     'end': '2024-06-06T11:00:00-05:00',
+            #     'time_zone': 'America/Chicago',
+            #     'court': court['description']
+            # }
+            # createEventsCalendar.create_events_calendar(event)
+        return {"message": "transacción aprobada"}
+    #     elif x_cod_response == '2':
+    #         print("transacción rechazada")
+    #         return {"error": "transacción rechazada"}
+    #     elif x_cod_response == '3':
+    #         print("transacción pendiente")
+    #         return {"error": "transacción pendiente"}
+    #     else:
+    #         print("transacción fallida")
+    #     return {"message": "Firma valida"}
+    # else:
+    #     print("Firma no valida")
+    #     return {"error": "Firma no valida"}
