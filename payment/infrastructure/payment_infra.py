@@ -31,13 +31,12 @@ async def payment(form: PaymentForm):
     x_cod_response = form.x_cod_response
     if x_cod_response == '1':
         print("transacción aprobada")
-        for court in courts['courts']:
+        for court in courts:
             event = {
                 'summary': f'Reserva de cancha de {name} {lastname}',
                 'start': f"{court['date']}T{court['hour']}:00:00-05:00",
                 'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
                 'time_zone': 'America/Chicago',
-                'court': court['description']
             }
             createEventsCalendar.create_events_calendar(event)
         return {"message": "transacción aprobada"}
