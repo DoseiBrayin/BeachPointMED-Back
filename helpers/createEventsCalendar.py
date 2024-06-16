@@ -18,18 +18,18 @@ from dotenv import load_dotenv
 # Define the scopes for the Google Calendar API
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-def create_events_calendar(event):
+def create_events_calendar(event, court):
     try:
         datetime.fromisoformat(event["start"])
     except ValueError:
         print("Error start")
-        raise HTTPException(status_code=400, detail="Invalid start date format. It should be in ISO 8601 format")
+        raise HTTPException(status_code=401, detail="Invalid start date format. It should be in ISO 8601 format")
     
     try:
         datetime.fromisoformat(event["end"])   
     except ValueError:
         print("Error end")
-        raise HTTPException(status_code=400, detail="Invalid end date format. It should be in ISO 8601 format")
+        raise HTTPException(status_code=401, detail="Invalid end date format. It should be in ISO 8601 format")
     
     event_body = {
         'summary': event["summary"],
@@ -46,7 +46,7 @@ def create_events_calendar(event):
     SERVICE_ACCOUNT_INFO = {}
     COURT_EMAIL = ''
 
-    if '1' in event["court"]:
+    if court == '1':
         SERVICE_ACCOUNT_INFO = {
             "type": os.getenv("TYPE_COURT1"),
             "project_id": os.getenv("PROJECT_ID_COURT1"),
@@ -61,7 +61,7 @@ def create_events_calendar(event):
             "universe_domain": os.getenv("UNIVERSE_DOMAIN_COURT1")
         }
         COURT_EMAIL = 'beachpointdev@gmail.com'
-    elif '2' in event["court"]:
+    elif court == '2':
         SERVICE_ACCOUNT_INFO = {
             'type': os.getenv('TYPE_COURT2'),
             'project_id': os.getenv('PROJECT_ID_COURT2'),
@@ -83,7 +83,7 @@ def create_events_calendar(event):
     # print(private_key.endswith('-----END PRIVATE KEY-----'))
 
     if not COURT_EMAIL or not SERVICE_ACCOUNT_INFO:
-        raise HTTPException(status_code=400, detail="Service account information or court email not specified correctly")
+        raise HTTPException(status_code=402, detail="Service account information or court email not specified correctly")
 
     CREDENTIALS = service_account.Credentials.from_service_account_info(
         SERVICE_ACCOUNT_INFO,

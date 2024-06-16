@@ -2,6 +2,7 @@ from payment.models.payment_model import PaymentForm
 from hashlib import sha256
 from helpers import createEventsCalendar
 import json
+from datetime import datetime
 
 async def payment(form: PaymentForm):
     p_cust_id_cliente = '1451626'
@@ -33,16 +34,19 @@ async def payment(form: PaymentForm):
     x_cod_response = form.x_cod_response
     if x_cod_response == '1':
         print("transacción aprobada")
+
         for court in courts:
             event = {
                 'summary': f"Reserva de cancha de {data['user']['name']}",
-                'start': f"{court['date']}T{court['hour']}:00:00-05:00",
-                'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
+                'start': datetime.fromisoformat(f"{court['date']}T{court['hour']}:00:00-05:00"),
+                'end': datetime.fromisoformat(f"{court['date']}T{court['hour']}:00:00-05:00"),
                 'time_zone': 'America/Chicago',
-                'court': court['description']
             }
             print(event)
-            createEventsCalendar.create_events_calendar(event)
+            if court['court'] == '1':
+                createEventsCalendar.create_events_calendar(event, '1')
+            else:
+                createEventsCalendar.create_events_calendar(event, '2')
         return {"message": "transacción aprobada"}
     elif x_cod_response == '2':
         print("transacción rechazada")
