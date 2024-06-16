@@ -18,7 +18,7 @@ def create_user(user_data: user_response.UserResponse):
         session.commit()
         session.close()
         user_dict = {key: value for key, value in user.__dict__.items() if key != '_sa_instance_state'}
-        return response.APIResponse(data=user_dict, status="success", message="User has been created successfully")
+        return response.APIResponse(data=create_token(user_dict), status="success", message="User has been created successfully")
     except IntegrityError as e:
         if 'duplicate key value violates unique constraint' in str(e):
             raise HTTPException(status_code=400,
