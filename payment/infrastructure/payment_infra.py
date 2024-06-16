@@ -39,6 +39,7 @@ async def payment(form: PaymentForm):
                 'start': f"{court['date']}T{court['hour']}:00:00-05:00",
                 'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
                 'time_zone': 'America/Chicago',
+                'court': court  # Add the court information to the event
             }
             print(event)
             createEventsCalendar.create_events_calendar(event)
