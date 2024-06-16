@@ -21,19 +21,23 @@ async def payment(form: PaymentForm):
     x_autorizacion = form.x_approval_code
 
     # x_extra1 is the courts that the user selected
-    courts = json.loads(form.x_xextra1)
     name = form.x_customer_name
     lastname = form.x_customer_lastname
 
     print(courts)
 
-    # if x_signature == signature:
+    # Parse the JSON string to a Python object
+    data = json.loads(form.x_xextra1)
+
+    # Extract the courts data
+    courts = data['courts']
+
     x_cod_response = form.x_cod_response
     if x_cod_response == '1':
         print("transacción aprobada")
         for court in courts:
             event = {
-                'summary': f'Reserva de cancha de {name} {lastname}',
+                'summary': f'Reserva de cancha de {data['user']['name']} {data['user']['lastname']}',
                 'start': f"{court['date']}T{court['hour']}:00:00-05:00",
                 'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
                 'time_zone': 'America/Chicago',
