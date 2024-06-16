@@ -43,6 +43,7 @@ class PaymentForm(BaseModel):
     x_customer_address: str = None
     x_customer_ip: str = None
     x_test_request: str = None
+    x_xextra1: Any = None
     x_extra1: Any = None
     x_extra2: Optional[str] = None
     x_extra3: Optional[str] = None
