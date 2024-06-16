@@ -43,7 +43,7 @@ async def payment(form: PaymentForm):
                 'time_zone': 'America/Chicago',
             }
             print(event)
-            if court['description'] == '1':
+            if '1' in court['description']:
                 createEventsCalendar.create_events_calendar(event, '1')
             else:
                 createEventsCalendar.create_events_calendar(event, '2')
