@@ -26,7 +26,7 @@ async def payment(form: PaymentForm):
     lastname = form.x_customer_lastname
 
     # if x_signature == signature:
-
+    print(form.x_extra1)
     if form.x_cod_response:
         courts = json.loads(form.x_extra1)
     else:
