@@ -40,6 +40,7 @@ async def payment(form: PaymentForm):
                 'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
                 'time_zone': 'America/Chicago',
             }
+            print(event)
             createEventsCalendar.create_events_calendar(event)
         return {"message": "transacción aprobada"}
     elif x_cod_response == '2':
