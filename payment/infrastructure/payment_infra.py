@@ -37,7 +37,7 @@ async def payment(form: PaymentForm):
         print("transacción aprobada")
         for court in courts:
             event = {
-                'summary': f'Reserva de cancha de {data['user']['name']} {data['user']['lastname']}',
+                'summary': f"Reserva de cancha de {data['user']['name']} {data['user']['lastname']}",
                 'start': f"{court['date']}T{court['hour']}:00:00-05:00",
                 'end': f"{court['date']}T{court['hour'] + 1}:00:00-05:00",
                 'time_zone': 'America/Chicago',
