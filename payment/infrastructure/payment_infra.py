@@ -26,6 +26,11 @@ async def payment(form: PaymentForm):
     lastname = form.x_customer_lastname
 
     # if x_signature == signature:
+
+    if form.x_cod_response:
+        courts = json.loads(form.x_extra1)
+    else:
+        return {"error": "Firma no valida"}
     x_cod_response = form.x_cod_response
     if x_cod_response == '1':
         print("transacción aprobada")
