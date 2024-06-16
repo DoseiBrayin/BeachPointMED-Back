@@ -38,8 +38,8 @@ async def payment(form: PaymentForm):
         for court in courts:
             event = {
                 'summary': f"Reserva de cancha de {data['user']['name']}",
-                'start': datetime.fromisoformat(f"{court['date']}T{court['hour']}:00:00-05:00"),
-                'end': datetime.fromisoformat(f"{court['date']}T{court['hour']}:00:00-05:00"),
+                'start': datetime.strptime(court['date'], '%Y-%m-%d').isoformat(),
+                'end': datetime.strptime(court['date'], '%Y-%m-%d').isoformat(),
                 'time_zone': 'America/Chicago',
             }
             print(event)
