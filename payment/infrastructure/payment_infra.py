@@ -25,6 +25,8 @@ async def payment(form: PaymentForm):
     name = form.x_customer_name
     lastname = form.x_customer_lastname
 
+    print(courts)
+
     # if x_signature == signature:
     x_cod_response = form.x_cod_response
     if x_cod_response == '1':
