@@ -22,11 +22,13 @@ def create_events_calendar(event):
     try:
         datetime.fromisoformat(event["start"])
     except ValueError:
+        print("Error start")
         raise HTTPException(status_code=400, detail="Invalid start date format. It should be in ISO 8601 format")
     
     try:
         datetime.fromisoformat(event["end"])   
     except ValueError:
+        print("Error end")
         raise HTTPException(status_code=400, detail="Invalid end date format. It should be in ISO 8601 format")
     
     event_body = {
