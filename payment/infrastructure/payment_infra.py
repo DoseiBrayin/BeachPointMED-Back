@@ -24,8 +24,6 @@ async def payment(form: PaymentForm):
     name = form.x_customer_name
     lastname = form.x_customer_lastname
 
-    print(courts)
-
     # Parse the JSON string to a Python object
     data = json.loads(form.x_xextra1)
 
