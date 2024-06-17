@@ -80,9 +80,9 @@ def get_user():
         raise HTTPException(status_code=500,
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
     
-async def send_verification_code(email):
+def send_verification_code(email):
     token,code = generate_verification_token(email)
-    await sendEmail(email, f"Your verification code is: {code}", "Verification code")
+    sendEmail(email, f"Your verification code is: {code}", "Verification code")
     return response.APIResponse(data=token, status="success", message="Verification code has been sent successfully")
 
 def verify_verification_code(token, code):
