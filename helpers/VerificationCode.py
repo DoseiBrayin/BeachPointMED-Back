@@ -13,7 +13,7 @@ def generate_verification_token(email):
     code = ''.join(random.choices(list, k=6))
     if not secret_key:
         raise ValueError("Missing secret key")
-    expiration = datetime.utcnow() + timedelta(minutes=1)  
+    expiration = datetime.utcnow() + timedelta(minutes=5)  
     token = jwt.encode({'email': email, 'exp': expiration, 'code':code}, secret_key, algorithm='HS256')
     return token, code
 
