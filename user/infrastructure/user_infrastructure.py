@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from JWT.jwtmanager import create_token
 from helpers.VerificationCode import generate_verification_token, verify_verification_token
-
+from helpers.sendEmail import sendEmail
 
 def create_user(user_data: user_response.UserResponse):
     try:
@@ -81,7 +81,9 @@ def get_user():
                             detail=response.APIResponse(status="error", message=str(e), status_code=500).__dict__)
     
 def send_verification_code(email):
-    return response.APIResponse(data=generate_verification_token(email), status="success", message="Verification code has been sent successfully")
+    token,code = generate_verification_token(email)
+    sendEmail(email, f"Your verification code is: {code}", "Verification code")
+    return response.APIResponse(data=token, status="success", message="Verification code has been sent successfully")
 
 def verify_verification_code(token, code):
     if not verify_verification_token(token):
