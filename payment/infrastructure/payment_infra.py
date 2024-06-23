@@ -3,6 +3,7 @@ from hashlib import sha256
 from helpers import createEventsCalendar
 import json
 from datetime import datetime
+from helpers.scheduler import cancelar_tarea
 
 async def payment(form: PaymentForm):
     p_cust_id_cliente = '1451626'
@@ -47,6 +48,7 @@ async def payment(form: PaymentForm):
                 createEventsCalendar.create_events_calendar(event, '1')
             else:
                 createEventsCalendar.create_events_calendar(event, '2')
+        cancelar_tarea(data['task_id'])
         return {"message": "transacción aprobada"}
     elif x_cod_response == '2':
         print("transacción rechazada")

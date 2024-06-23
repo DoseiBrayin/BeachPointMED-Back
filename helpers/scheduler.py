@@ -15,6 +15,6 @@ def scheduler_job(funcion, minutos,tarea_id, *args, **kwargs):
 def cancelar_tarea(tarea_id):
     try:
         scheduler.remove_job(tarea_id)
-        return f'Tarea {tarea_id} cancelada'
+        return True
     except Exception as e:
         raise Exception(f'Error al cancelar la tarea: {e}')

@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from models import response
 from timeCourts.infrastructure import timeCourts_infrastructure
 from JWT.JWTBearer import JWTBearer
-from helpers.scheduler import scheduler_job
+from helpers.scheduler import scheduler_job, cancelar_tarea
 from fastapi import BackgroundTasks
 
 router = APIRouter()
@@ -22,7 +22,7 @@ def read_timeCourts_by_date(date:str,location:str):
 def change_state(id:str, background_tasks: BackgroundTasks):
     id_list = [i for i in id.split(",")]
     task_id = str(uuid.uuid4())
-    background_tasks.add_task(scheduler_job,timeCourts_infrastructure.change_status_available, 1,task_id, id_list)
+    background_tasks.add_task(scheduler_job,timeCourts_infrastructure.change_status_available, 10,task_id, id_list)
     return timeCourts_infrastructure.change_status_reserved(id_list, task_id)
 
 @router.get("/Available/{id}",response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
