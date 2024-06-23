@@ -2,6 +2,7 @@ from models import response
 from db.connection import Session
 from fastapi import HTTPException
 from db.models.BPDataBase import Timecourts, Courts
+from helpers.scheduler import scheduler_job
 
 def get_timeCourts(location: str) -> response.APIResponse:
     try:
@@ -89,7 +90,7 @@ def get_timeCourts_by_date(date: str, location: str) -> response.APIResponse:
             status_code=500,
         )
 
-def change_status_reserved(id):
+def change_status_reserved(id, tarea_id):
     try:
         session = Session()
         states_courts = []
@@ -102,6 +103,7 @@ def change_status_reserved(id):
             else:
                 states_courts.append(f'TimeCourt {timeCourt_id} is not available to be reserved')
         print(states_courts)
+        states_courts.append({"task_id": tarea_id, "message": "The task has been successfully completed"})
         return response.APIResponse(
             message="TimeCourts have been successfully reserved",
             data=states_courts,
