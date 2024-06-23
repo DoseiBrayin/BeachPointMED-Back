@@ -48,7 +48,7 @@ async def payment(form: PaymentForm):
                 createEventsCalendar.create_events_calendar(event, '1')
             else:
                 createEventsCalendar.create_events_calendar(event, '2')
-        cancelar_tarea(data['task_id'])
+        cancelar_tarea(data['reservedCourts'])
         return {"message": "transacción aprobada"}
     elif x_cod_response == '2':
         print("transacción rechazada")
