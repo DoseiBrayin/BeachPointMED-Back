@@ -6,7 +6,7 @@ from user.model.user_response import UserResponse,LoginResponse
 
 router = APIRouter()
 
-@router.post("/create", response_model=response.APIResponse, dependencies=[Depends(JWTBearer())])
+@router.post("/create", response_model=response.APIResponse)
 def create_user(user_data: UserResponse ):
     return user.create_user(user_data)
 
@@ -14,7 +14,7 @@ def create_user(user_data: UserResponse ):
 def login(user_data: LoginResponse):
     return user.login(user_data)
 
-@router.get("/", response_model=response.APIResponse,dependencies=[Depends(JWTBearer())])
+@router.get("/", response_model=response.APIResponse)
 def get_user():
     return user.get_user()
 
